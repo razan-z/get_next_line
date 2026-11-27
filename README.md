@@ -108,7 +108,8 @@ Because `read()` retrieves fixed chunks of `BUFFER_SIZE` bytes without awareness
 - **Project Walkthrough & Architecture:** [Medium — GNL Explained by lannur-s](https://medium.com/@lannur-s/gnl-c3cff1ee552b)
 - **File Descriptors & System I/O:** [DEV Community — GET NEXT LINE: A 42 Project to Learn How to Deal with File Descriptors and I/O of System](https://dev.to/aerrfig/get-next-line-a-42-project-to-learn-how-to-deal-with-file-descriptors-and-io-of-system-3652)
 - **Static Variables in C:** [GeeksforGeeks — Static Variables in C](https://www.geeksforgeeks.org/c/static-variables-in-c/)
-- **Memory Debugging:** Valgrind (`--leak-check=full`) and AddressSanitizer (`-fsanitize=address`) documentation for verifying zero memory leaks and safe heap management.
+* **Tripouille's `gnlTester`:** [GitHub — Tripouille/gnlTester](https://github.com/Tripouille/gnlTester) (used to verify mandatory and bonus edge cases, malloc sizing, and leak checks).
+* **Valgrind:** [Valgrind User Manual](https://valgrind.org/docs/manual/manual.html) (used to verify zero memory leaks and invalid memory reads across varying `BUFFER_SIZE` values).
 
 ### Use of AI
 
