@@ -1,6 +1,6 @@
-#include <fcntl.h>
 #include <stdio.h>
-#include <unistd.h>
+#include <fcntl.h>
+#include "get_next_line.h"
 
 int main() {
     int fd = open("example.txt", O_RDONLY | O_CREAT, 0644);
@@ -9,17 +9,12 @@ int main() {
         return 1;
     }
 
-    char buffer[128];
-    ssize_t bytes_read;
-
-    // Leave 1 byte at the end for the null terminator
-    while ((bytes_read = read(fd, buffer, sizeof(buffer) - 1)) > 0) {
-        buffer[bytes_read] = '\0'; 
-        printf("%s", buffer);
-    }
-
-    if (bytes_read == -1) {
-        perror("Error reading file");
+    char *line;
+    int i = 0;
+    while ((line = get_next_line(fd)) != NULL) {
+        i++;
+        printf("%d line: %s", i,line);
+        free(line);
     }
 
     close(fd);

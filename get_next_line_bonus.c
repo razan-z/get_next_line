@@ -1,5 +1,11 @@
 #include "get_next_line_bonus.h"
 
+static char	*ft_free_and_return_NULL(char *mem)
+{
+	free(mem);
+	return (NULL);
+}
+
 static char	*read_to_stash(int fd, char *stash)
 {
 	char	*buf;
@@ -7,21 +13,20 @@ static char	*read_to_stash(int fd, char *stash)
 
 	buf = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buf)
-		return (free(stash), NULL);
+		return (ft_free_and_return_NULL(stash));
 	bytes_read = 1;
-	while (!ft_strchr(stash, '\n') && bytes_read != 0)
+	while (!find_newline(stash) && bytes_read != 0)
 	{
 		bytes_read = read(fd, buf, BUFFER_SIZE);
 		if (bytes_read == -1)
 		{
 			free(buf);
-			free(stash);
-			return (NULL);
+			return (ft_free_and_return_NULL(stash));
 		}
 		buf[bytes_read] = '\0';
 		stash = ft_strjoin(stash, buf);
 		if (!stash)
-			return (free(buf), NULL);
+			return (ft_free_and_return_NULL(buf));
 	}
 	free(buf);
 	return (stash);
@@ -54,7 +59,7 @@ static char	*extract_line(char *stash)
 	return (line);
 }
 
-static char	*clean_stash(char *stash)
+static char	*save_stash_leftovers(char *stash)
 {
 	int		i;
 	int		j;
@@ -64,13 +69,10 @@ static char	*clean_stash(char *stash)
 	while (stash[i] && stash[i] != '\n')
 		i++;
 	if (!stash[i])
-	{
-		free(stash);
-		return (NULL);
-	}
+		return (ft_free_and_return_NULL(stash));
 	new_stash = (char *)malloc(sizeof(char) * (ft_strlen(stash) - i + 1));
 	if (!new_stash)
-		return (free(stash), NULL);
+		return (ft_free_and_return_NULL(stash));
 	i++;
 	j = 0;
 	while (stash[i])
@@ -97,6 +99,6 @@ char	*get_next_line(int fd)
 		stash[fd] = NULL;
 		return (NULL);
 	}
-	stash[fd] = clean_stash(stash[fd]);
+	stash[fd] = save_stash_leftovers(stash[fd]);
 	return (line);
 }
