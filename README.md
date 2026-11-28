@@ -86,7 +86,7 @@ Because `read()` retrieves fixed chunks of `BUFFER_SIZE` bytes without awareness
 2. **Line Extraction (`extract_line`):**
    - Scans `stash` up to and including the first `\n` (or `\0` if EOF is reached without a trailing newline).
    - Allocates an exact-sized string for the line, copies the characters, and returns it to the caller.
-3. **Stash Trimming (`clean_stash`):**
+3. **Stash Trimming (`save_stash_leftovers`):**
    - Copies all remaining bytes located after the first `\n` into a newly allocated string, frees the previous `stash` buffer to prevent memory leaks, and updates `stash` for the next call.
    - When EOF is reached (`!stash[i]`), frees `stash` and returns `NULL` so no memory remains allocated after the file ends.
 4. **Dangling Pointer Protection:**
@@ -108,6 +108,7 @@ Because `read()` retrieves fixed chunks of `BUFFER_SIZE` bytes without awareness
 - **Project Walkthrough & Architecture:** [Medium — GNL Explained by lannur-s](https://medium.com/@lannur-s/gnl-c3cff1ee552b)
 - **File Descriptors & System I/O:** [DEV Community — GET NEXT LINE: A 42 Project to Learn How to Deal with File Descriptors and I/O of System](https://dev.to/aerrfig/get-next-line-a-42-project-to-learn-how-to-deal-with-file-descriptors-and-io-of-system-3652)
 - **Static Variables in C:** [GeeksforGeeks — Static Variables in C](https://www.geeksforgeeks.org/c/static-variables-in-c/)
+
 * **Tripouille's `gnlTester`:** [GitHub — Tripouille/gnlTester](https://github.com/Tripouille/gnlTester) (used to verify mandatory and bonus edge cases, malloc sizing, and leak checks).
 * **Valgrind:** [Valgrind User Manual](https://valgrind.org/docs/manual/manual.html) (used to verify zero memory leaks and invalid memory reads across varying `BUFFER_SIZE` values).
 
